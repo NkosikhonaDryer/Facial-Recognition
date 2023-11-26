@@ -1,0 +1,66 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="container">
+        <div style="padding:1rem;display:flex;justify-content:right">
+
+            
+         
+            <div>
+                <a href="{% url 'update_GateKeeper' keeperId=security.SecurityId %}" style="border-radius:100px;border:solid 1px; color:#284678;padding:1rem">
+                    <b>Upade information</b>
+                </a>
+            </div>
+           
+
+        </div>
+        <div style="padding:1rem;display:flex;justify-content:center">
+
+            <div >
+                <h2><b>{{security.first_name}} {{security.last_name}}</b></h2>
+            </div>
+           
+        </div>
+
+        <hr/>
+        <div>
+            <h4><b>Gate keeper information</b></h4>
+        </div>
+
+        <div>
+
+            <label>First name: {{security.first_name}}</label><br/>
+            <label>Last name: {{security.last_name}}</label><br/>
+            <label>Email: {{security.email}}</label><br/>
+            <label>Phone number: {{security.PhoneNumber}}</label><br/>
+            <label><a href="{{security.Keeperimage}}">Profile image</a>
+                
+        </div>
+    
+
+        
+
+    <div>
+
+
+{% endif %}

@@ -1,0 +1,14 @@
+{% autoescape off %}
+
+    Hello {{user.first_name}},I hope this email finds you well. 
+    Please be informed that you have been assigned to take Campus attendance for students from the entrence.
+
+    and to login to you account please use:
+    email: {{user.email}}
+    
+    password: {{newPassword}}
+   
+    {% comment %} {{protocol}}://{{ domain }}{% url 'activate' uidb64=uid token=token %} {% endcomment %}
+
+
+{% endautoescape %}

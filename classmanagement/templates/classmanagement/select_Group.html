@@ -1,0 +1,145 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+    <style>
+        .GroupItem:hover{
+            background-color:#284678;
+            color:white;
+            
+        }
+
+
+    </style>    
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+
+
+    <div class="container">
+        <div style="padding:1rem;" class="text-center">
+            <h1><b>{{program.ProgramName}} groups</b><br/>
+            <h4 class="text-info"><b><i>Please select the group that you are assigned to</i></b></h4>
+        </div>
+        <hr/>
+
+
+
+        {% if groups %}
+    
+            <div class="row">
+                
+                    {% for group in groups %}
+                
+                        <div class="col-xl-3 col-md-6 mb-4" >
+                            
+                            <div id="GroupItem{{group.GroupId}}" class="card border-left-primary shadow h-100 py-2 GroupItem" >
+                                <div style="display:flex; justify-content:right ">
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                       <h1>{{group.GroupCode}}</h1>
+                                    </div>
+                                  
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2" style="display:flex; justify-content:center;">
+                                            
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{module.ModuleCode}}
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="groupName{{group.GroupId}}" value="{{group.GroupCode}}"/>
+                        <input type="hidden" id="groupIdHolder{{group.GroupId}}" value="{{group.GroupId}}"/>
+                        
+                        <script>
+                            GroupItem = document.getElementById("GroupItem"+{{group.GroupId}})
+                            
+                            GroupItem.addEventListener('click', function(){
+                                groupName = document.getElementById("groupName{{group.GroupId}}")
+                                submitHolder = document.getElementById("submitHolder")
+                                groupIdHolder = document.getElementById("groupIdHolder"+{{group.GroupId}})
+                                
+                                GroupId = document.getElementById("GroupId")
+                                GroupId.value = groupIdHolder.value
+                                document.getElementById("lblGroupCode").innerHTML = '<b>'+groupName.value+'</b>'
+                                styledGroup = document.getElementById("styledGroup")
+                                if(styledGroup.value){
+                                    console.log("style: ",document.getElementById(styledGroup.value).style)
+                                    document.getElementById(styledGroup.value).style = ""
+                                }
+                                document.getElementById("GroupItem"+{{group.GroupId}}).style = "background-color:#284678;color:white;"
+                                styledGroup.value = "GroupItem"+{{group.GroupId}}
+                                submitHolder.hidden = false
+                                alert('If you are sure about selecting group "'+groupName.value+'" please click "Confirm Selection"');
+
+
+                            })
+
+
+                        </script>
+
+                       
+
+                        
+                        
+                    {% endfor%}
+
+                    <input type="hidden" id="styledGroup" />
+                
+    
+    
+    
+    
+    
+    
+            
+    
+    
+            </div>
+            <form  method="post"  style="display:flex; justify-content:center;padding:1rem;">
+
+                {% csrf_token %}
+                <div style="font-size:20px">
+                    
+                    
+                </div><br/>
+                <div>
+                    
+                </div>
+                <input type="hidden" id="GroupId"  name="GroupId" />
+                <div hidden id="submitHolder" style="padding:1rem;border:solid 1px #284678;border-radius:12px">
+                    <b>Confirm to select group "<label id="lblGroupCode"></label>"</b>
+                    <input type="submit" value="Confirm Selection" class="btn btn success" style="background-color:#284678; color:white; font-size:25px;border-radius:12px"/>
+                </div>
+            </form>
+        {%endif%}
+    </div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+    
+
+    <div class="container" >
+        <div style="display:flex; justify-content:space-between">
+            
+            <div >
+                <h2><b>All groups</b></h2>
+            </div>
+            <div style="display:flex">
+                <div>
+                    <a class="btn btn-default" style="border:solid 2px; border:radius:12px;color:#284678" href="{% url 'add_Group' ProgramId=program.ProgramId %}"><b> Add new Group</b></a>
+        
+                </div>
+                
+            </div>
+        </div>
+        <hr/>
+       
+        <div>
+            
+            {% if groups %}
+    
+            <div class="row">
+                
+                    {% for group in groups %}
+                
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div style="display:flex; justify-content:right">
+                                    
+                                        <a  style="justify-content:center;padding:10px; background-color:green; color:white" href="{% url 'Group_Details' GroupId=group.GroupId %}">
+                                           More details
+                                        </a>
+                            
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                       <h1>{{group.GroupCode}}</h1>
+                                    </div>
+                                    <hr/>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2" style="display:flex; justify-content:center;color: #FF69B4;">
+                                            
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{group.numStudents}} students
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                        
+                                       
+                                                    
+                                            <div>
+                                                {% comment %} <a class="btn btn-success" href="{% url 'Approve' orderId=order.OrderId %}" title="Remove item from cart?" style="padding:5px;" >Approve order</a> {% endcomment %}
+                                            </div>
+    
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                
+    
+    
+    
+    
+    
+    
+            
+    
+    
+            </div>
+        {%endif%}
+        </div>
+
+
+    </div>
+      
+{% endblock %}

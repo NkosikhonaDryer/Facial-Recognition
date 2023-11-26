@@ -1,0 +1,56 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+    
+
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; ">
+            <div>
+                <h2><b>Update {{module.ModuleName}} module</b></h2>
+            </div>
+
+            <div>
+                <a class="btn btn-default" style="border:solid 2px; border:radius:12px;color:#284678" href="{% url 'module_Details' ModuleId=module.ModuleId %}"><b> Module details</b></a>
+
+            </div>
+        </div>
+  
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label class="form-label" >Module Name</label>
+                <input type="text" required name="ModuleName" value="{{module.ModuleName}}" class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Module Code</label>
+                <input type="text" required name="ModuleCode" value="{{module.ModuleCode}}" class="form-control form-control-lg"/>
+            </div> 
+            
+              
+            <div style="display:flex; justify-content:center; padding: 1rem">
+                
+                <button type="submit" style="border-radius:100px; width:auto; height:auto;background-color:#284678;color:white;"  class="form-control form-control-lg text-center" > Save changes </button>
+            </div>  
+        </form>
+
+
+    </div>
+      
+{% endblock %}

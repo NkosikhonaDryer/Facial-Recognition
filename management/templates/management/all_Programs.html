@@ -1,0 +1,146 @@
+{% extends "streamApp/base.html" %}
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+    <div class="text-center">
+
+        <h1> <b>Programs</b></h1>
+    </div>
+    
+
+    <hr/>
+    <div  style="padding:1rem; display:flex; justify-content:right">
+        
+        <div>
+            <a class="btn btn-default" style="border:solid 2px; border:radius:12px;color:#284678" href="{% url 'add_Program' %}"><b> Add new program</b></a>
+
+        </div>
+
+    </div>
+
+    {% if programs %}
+    
+        <div class="row">
+            
+                {% for program in programs %}
+                  
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div style="display:flex; justify-content:right">
+                                {% comment %} {% if group.numStudents ==  0 %}
+                                    <a  style="justify-content:center;padding:10px; background-color:red; color:white" href="{% url 'delete_group' GroupId=group.GroupId %}">
+                                        delete
+                                    </a>
+                                {% endif %} {% endcomment %}
+                                
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                    {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                  <div style="display:flex;">
+                                    <h1>{{program.program.ProgramName}} </h1>
+                                    <a title="Update program details" style="padding:0.5rem;" href="{% url 'update_Program' ProgramId=program.program.ProgramId %}"> <i class="fas fa-2x  fa-pencil-alt edit-icon"></i></a>
+ 
+
+                                  </div>
+                                   
+                                </div>
+                                <hr/>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2" style="display:flex; justify-content:center;flex-direction:column">
+                                        
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <label>Program code: {{program.program.ProgramCode}}</label></br/>
+                                            <label>Number of modules: {{program.numModules}}</label></br/>
+                                            <label>Added by:{{program.program.AddedBy.first_name}} {{program.program.AddedBy.last_name}}</label><br/>
+                                            <label>Date added: {{program.program.DateCreated}}</label></br/>
+                                            <label>Program code: {{program.program.ProgramCode}}</label></br/>
+                                            
+                                            
+                                            
+                                          
+
+                                        </div>
+                                        <div style="padding:1rem; font-size:20px">
+                                            {% if user.is_superuser %}
+                                                {% comment %} <a title="See module details" style="border:solid 1px;padding:0.5rem;border-radius:80%" href="#"> <i class="fas fa-eye view-icon"></i></a> {% endcomment %}
+                                                <a href="{% url 'all_Lectures' ProgramId=program.program.ProgramId %}">
+                                                    <b>
+                                                        Lecture
+                                                    </b>
+
+                                                </a> |
+                                                <a href="{% url 'all_Modules' ProgramId=program.program.ProgramId %}">
+                                                    <b>
+                                                        Mudules
+                                                    </b>
+
+                                                </a> | 
+                                                
+                                                <a href="{% url 'all_Groups' ProgramId=program.program.ProgramId %}">
+                                                    <b>
+                                                        Groups
+                                                    </b>
+
+                                                </a>
+
+
+                                                
+
+                                            {% endif %}
+                                        
+                                        </div>
+                                       
+                                    </div>
+                                
+                                </div>
+                                <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                    
+                                   
+                                                
+                                        <div>
+                                            {% comment %} <a class="btn btn-success" href="{% url 'Approve' orderId=order.OrderId %}" title="Remove item from cart?" style="padding:5px;" >Approve order</a> {% endcomment %}
+                                        </div>
+
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor%}
+            
+
+
+
+
+
+
+        
+
+
+        </div>
+    {%endif%}
+
+
+
+
+
+
+{% endblock %}

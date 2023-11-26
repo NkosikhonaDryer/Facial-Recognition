@@ -1,0 +1,125 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 row" style=" padding:1rem; display:flex;">
+        <div style="padding:1rem">
+            <h1 class="h3 mb-0 text-gray-800"><b>{{slot.weekday}}</b></h1>
+            <hr style="border:solid 2px" />
+            <div style="font-size:15px">
+                                
+                <label><b>Group: {{moduleGroup.Group.GroupCode}} </b></label><br/>
+
+                <label><b>Time: {{slot.Time}} </b></label><br/>
+                <label><b>Venue: {{slot.Venue}} </b></label><br/>
+                <label><b>Classes Conducted: {{numClasses}} </b></label><br/>
+
+                <a href="{% url 'update_Slot' SlotId=slot.SlotId %}">
+                    update Slot
+                </a>
+                
+                
+            </div>
+        </div>
+        <div style="padding:1rem">
+            <a href="{% url 'group_module_deshboad' ModuleGroupId=moduleGroup.ModuleGroupId %}" class=" btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                <b>Group module deshboad</b>
+            </a>
+        </div>
+    </div>
+    <hr style="border:solid 1px"/>
+
+    <div class="container">
+
+        {% if classes %}
+
+            <div class="row">
+
+                {% for class in classes %}
+
+                    
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-header">
+                                <h5><b> Date: {{class.class.Date}} </b></h5>
+                            </div>
+                            <div class="card-body">
+                                <div style="font-size:15px">
+                                    
+
+                                    <label><b>Attendees: {{class.numAttendees}} </b></label><br/>
+                                    <label><b>Module: {{class.class.TimetableSlot.ModuleGroup.Module.ModuleName}} </b></label><br/>
+                                    <label><b>Status: {{class.class.Status}} </b></label><br/>
+                                    {% if class.class.Status == 'Taking' %}
+                                        <label><b>Status: {{class.class.Status}} Attendees</b></label><br/>
+
+                                    {% else %}
+                                        <label><b>Status: {{class.class.Status}} </b></label><br/>
+
+                                    {% endif %}
+                                    
+                                </div>
+                                
+                            
+                            </div>
+                            {% if class.class.Status == 'Pending' %}
+                                <div class="card-footer" style="display:flex;" >
+                    
+                                    <a href="{% url 'take_attendance' classId=class.class.ClassId %}" class="btn btn-default" style="background-color:#284678;color:white;width:100%">
+                                        <b>Take Attendance</b>
+                                    </a>
+                            
+                                </div>
+                            {% endif %}
+                            
+                            {% if class.class.Status == 'Complete' %}
+                                <div class="card-footer" style="display:flex;" >
+                        
+                                    <a href="{% url 'class_Attendees' classId=class.class.ClassId %}" class="btn btn-default" style="background-color:#284678;color:white;width:100%">
+                                        <b>Class Attendees</b>
+                                    </a>
+                            
+                                </div>
+
+                            {% endif %}
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+
+        {% else %}
+            <div class="text-center">
+                <h3>
+                    <b>
+                        No classes conducted under the time Slot
+                    </b>
+                </h3>
+            </div>
+
+        {% endif %}
+    </div>
+
+
+{% endblock %}

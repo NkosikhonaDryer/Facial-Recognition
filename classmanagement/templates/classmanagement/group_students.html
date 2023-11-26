@@ -1,0 +1,145 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container">
+
+        <div class="text-center">
+            <h1>
+                <b>
+                    Group {{group.GroupCode}} students
+                </b>
+            </h1>
+            
+            <h5>
+                <b>
+                    Module: {{module.ModuleName}}({{module.ModuleCode}})
+                </b><br/>
+                <b>
+                    number of students: {{numStudents}}
+                </b><br/>
+                <b>
+                    Classes conducted: {{numClasses}}
+                </b><br/>
+                
+            </h5>
+            
+        </div>
+        <div class="row" style="padding:1rem; display:flex;justify-content:center" >
+            <div style="padding:0.5rem">
+                <a href="{% url 'lectur_deshboad' LectureId=moduleGroup.Lecture.LectureId %}" class=" btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                    <b>Deshboad</b>
+                </a>
+            </div>
+            <div style="padding:0.5rem">
+                <a href="{% url 'group_module_deshboad' ModuleGroupId=moduleGroup.ModuleGroupId %}" class=" btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                    <b>Module details</b>
+                </a>
+            </div>
+            
+            
+
+        </div>
+        <hr/>
+
+        {% if students %}
+            <div>
+                <h3>
+                    <b>Attendees</b>
+                </h2>
+            </div>
+
+
+            <div class="row" style="padding:1rem">
+                {% for student in students%}
+
+              
+                    {% comment %}  src="http://'+domain.value +'/'+json[i].StudentIamge +'"/ {% endcomment %}
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                    <img src="http://{{domain}}/media/{{student.student.StudentIamge}}" style="width:inherit; width:100%;border:solid;max-height:320px" >
+                                </div>
+                                <hr/>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            {{student.Student.first_name}} {{student.Student.last_name}}</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                    </div>
+                                       
+                                </div>
+                            
+                            </div>
+                            <div class="card-footer" style="display:flex;" >
+             
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Attendence rate
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{student.attendenceRate}}%</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="progress progress-sm mr-2">
+                                                    <div class="progress-bar bg-info" role="progressbar"
+                                                        style="width: {{student.attendenceRate}}%" aria-valuenow="50" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                        
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="padding:1rem" class="text-center text-danger">
+                <h3>
+                    <b>
+                        The class has no students yet
+                    </b>
+                </h3>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+{% endblock %}

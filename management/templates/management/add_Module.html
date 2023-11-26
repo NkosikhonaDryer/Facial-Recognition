@@ -1,0 +1,142 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+    
+
+    <div class="container">
+        <div class="text-center" style="padding:1rem">
+            <h1>
+                {{program.ProgramName}}
+            </h1>
+        </div>
+        <hr/>
+        <div style="display:flex, justify-content:center">
+            <h2><b>Add new module</b></h2>
+        </div>
+  
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label class="form-label" >Module Name</label>
+                <input type="text" required name="ModuleName"  class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Module Code</label>
+                <input type="text" required name="ModuleCode"  class="form-control form-control-lg"/>
+            </div> 
+            
+              
+            <div style="display:flex; justify-content:center; padding: 1rem">
+                
+                <button type="submit" style="border-radius:100px; width:auto; height:auto;background-color:#284678;color:white;"  class="form-control form-control-lg text-center" > Submit and Continue </button>
+            </div>  
+        </form>
+
+
+    </div>
+    {% if modules %}
+    
+        <div class="row">
+            
+                {% for module in modules %}
+                    {{module.ModuleId}}
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div style="display:flex; justify-content:right">
+                                {% comment %} {% if group.numStudents ==  0 %}
+                                    <a  style="justify-content:center;padding:10px; background-color:red; color:white" href="{% url 'delete_group' GroupId=group.GroupId %}">
+                                        delete
+                                    </a>
+                                {% endif %} {% endcomment %}
+                                
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                    {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                   <h1>{{module.module.ModuleCode}}</h1>
+                                </div>
+                                <hr/>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2" style="display:flex; justify-content:center;flex-direction:column">
+                                        
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            
+                                            {{module.numGroup}} Grounps:
+                                            {% if module.numGroup > 0 %}
+                                            
+                                                 (
+
+                                                    {% for group in module.groups %}
+                                                        {{group.Group.GroupCode}},
+
+                                                    {% endfor %}
+                                                )
+                                            {% else %}
+
+                                                <a href="{% url 'module_Select_Group' ModuleId=module.module.ModuleId %}" >
+                                                    Assign Groups
+                                                </a>
+                                            {% endif %}
+                                          
+
+                                        </div>
+                                        <div style="padding:1rem">
+                                            {% if user.is_superuser %}
+                                                <a title="See module details" style="border:solid 1px;padding:0.5rem;border-radius:80%" href="{% url 'module_Details' ModuleId=module.module.ModuleId %}"> <i class="fas fa-eye view-icon"></i></a>
+
+                                                <a title="Edit module details" style="border:solid 1px;padding:0.5rem;border-radius:80%" href="{% url 'update_Module' ModuleId=module.module.ModuleId %}"> <i class="fas  fa-pencil-alt edit-icon"></i></a>
+
+                                                
+
+                                            {% endif %}
+                                        
+                                        </div>
+                                       
+                                    </div>
+                                
+                                </div>
+                                <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                    
+                                   
+                                                
+                                        <div>
+                                            {% comment %} <a class="btn btn-success" href="{% url 'Approve' orderId=order.OrderId %}" title="Remove item from cart?" style="padding:5px;" >Approve order</a> {% endcomment %}
+                                        </div>
+
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor%}
+            
+
+
+
+
+
+
+        
+
+
+        </div>
+    {%endif%}
+{% endblock %}

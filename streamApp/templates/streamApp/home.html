@@ -1,0 +1,61 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Stream</title>
+</head>
+<body>
+    <h1>Live Camera Stream</h1>
+    
+    <button id="startButton">Start Stream</button>
+    <button id="stopButton">Stop Stream</button>
+
+    <script>
+        
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        startButton.addEventListener('click', () => {
+            videoElement.src = "{% url 'video_feed' %}";
+        });
+
+        stopButton.addEventListener('click', () => {
+            videoElement.src = "";
+        });
+    </script>
+</body>
+</html> {% endcomment %}

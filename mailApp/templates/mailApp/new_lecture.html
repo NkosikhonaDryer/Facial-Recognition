@@ -1,0 +1,15 @@
+{% autoescape off %}
+
+    Hello {{user.first_name}},I hope this email finds you well. 
+    Please be informed that you have been assigned group {{moduleGroup.Group.GroupCode}} to with regards to module: {{moduleGroup.Module.ModuleName}}
+
+    and to login to you account please use:
+    email: {{user.email}}
+    {% if is_userExist == False %}
+
+        password: {{newPassword}}
+    {% endif %} 
+    {% comment %} {{protocol}}://{{ domain }}{% url 'activate' uidb64=uid token=token %} {% endcomment %}
+
+
+{% endautoescape %}

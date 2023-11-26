@@ -1,0 +1,172 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 row" style="padding:1rem">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800"><b>Time Slots For Group: {{moduleGroup.Group.GroupCode}}</b></h1>
+            <hr style="border:solid 2px" />
+            <h5><b> {{moduleGroup.Module.ModuleName}}</b></h5>
+        </div>
+        <a href="{% url 'group_module_deshboad' ModuleGroupId=moduleGroup.ModuleGroupId %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+            <b>Group module deshboad</b>
+        </a>
+    </div>
+    <hr style="border:solid 1px"/>
+
+    <div class="container">
+        <div style="display:flex; justify-content:center">
+            <h3><b>New time slot</b></h3>
+            
+        </div>
+        <div>   
+            <form method="post" enctype="multipart/form-data" style="padding:1rem;font-size:20px">
+                {% csrf_token %}
+                <div style="padding:0.5rem">
+                    <label class="form-label" >Day</label>
+                    <select  id="weekdayNum"  required name="weekdayNum"  class="form-control form-control-lg">
+                        <option value="1">
+                            <b>Monday</b>
+                        </option>
+                        <option value="2">
+                            <b>Tuesday</b>
+                        </option>
+                        <option value="3">
+                            <b>Wednesday</b>
+                        </option>
+                        <option value="4">
+                            <b>Thursday</b>
+                        </option>
+                        <option value="5">
+                            <b>Friday</b>
+                        </option>
+
+                    </select>
+                </div>
+                
+               
+                <div style="padding:0.5rem">
+                    <label class="form-label" >Time</label>
+                    
+
+                    {% comment %} <input type="text" value="15:07"/> {% endcomment %}
+                    <select  name="Time" class="form-control form-control-lg">
+
+                        <option value="08:00">
+                            08:00
+                        </option>
+                        <option value="09:00">
+                            09:00
+                        </option>
+                        <option value="10:00">
+                            10:00
+                        </option>
+                        <option value="11:00">
+                            11:00
+                        </option>
+                        <option value="12:00">
+                            12:00
+                        </option>
+                        <option value="13:00">
+                            13:00
+                        </option>
+                        <option value="14:00">
+                            14:00
+                        </option>
+                        <option value="15:00">
+                            15:00
+                        </option>
+                        <option value="16:00">
+                            16:00
+                        </option>
+                    </select>
+                    {% comment %} <input type="time" required name="Time" /> {% endcomment %}
+                </div>
+                <div style="padding:0.5rem">
+                    <label class="form-label" >Venue</label>
+                    <input type="text" required name="Venue" value="{{student.last_name}}"  class="form-control form-control-lg"/>
+                </div>
+                
+                
+                  
+                <div style="display:flex; justify-content:center; padding: 1rem">
+                    
+                    <input  type="submit" style="border-radius:100px; width:auto; height:auto;background-color:#284678;color:white;"  class="form-control form-control-lg text-center" value="Create slot" /> 
+                </div>  
+            </form>
+
+        </div>
+        
+
+    </div>
+
+    {% if timetableSlots %}
+        <hr style="border:solid 1px"/>
+        <div>
+            <h2>All time slots</h2>
+        </div>
+
+        <div class="row">
+
+            
+            {% for slot in timetableSlots %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>  {{slot.weekday}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label><b>Time: {{slot.Time}} </b></label><br/>
+                                <label><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label><b>Classes Conducted: {{module.numClassConducted}} </b></label><br/>
+
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        <div class="card-footer" style="display:flex;" >
+            
+                            <a href="{% url 'slot_Details' SlotId=slot.SlotId %}" class="btn btn-default" style="background-color:#284678;color:white;width:100%">
+                                <b>more detaile</b>
+                            </a>
+                    
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+        </div>
+
+
+
+
+    {% endif %}
+    
+
+
+{% endblock %}

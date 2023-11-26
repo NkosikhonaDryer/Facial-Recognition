@@ -1,0 +1,118 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container">
+        
+
+        <div class="text-center">
+            <h1>
+                <b>
+                    Group {{class.Group.GroupCode}} {{module.Module.ModuleName}}({{module.Module.ModuleCode}})
+                </b>
+            </h1>
+            
+            <h5>
+                <b>
+                    Status: {{class.Status}}
+                </b><br/>
+                <b>Date: {{class.Date}}</b><br/>
+                <b>Number of attendees: {{numAttendess}}</b>
+
+            </h5>
+            
+        </div>
+        <div class="row" style="padding:1rem; display:flex;justify-content:center" >
+            <div style="padding:0.5rem">
+                <a href="{% url 'lectur_deshboad' LectureId=class.TimetableSlot.Lecture.LectureId %}" class=" btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                    <b>Deshboad</b>
+                </a>
+            </div>
+            <div style="padding:0.5rem">
+                <a href="{% url 'group_module_deshboad' ModuleGroupId=class.TimetableSlot.ModuleGroup.ModuleGroupId %}" class=" btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                    <b>Module details</b>
+                </a>
+            </div>
+            <div style="padding:0.5rem">
+                <a href="{% url 'slot_Details' SlotId=class.TimetableSlot.SlotId %}" class=" btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                    <b>Slot details</b>
+                </a>
+            </div>
+            
+
+        </div>
+        <hr/>
+        {% if attendees %}
+            <div>
+                <h3>
+                    <b>Attendees</b>
+                </h2>
+            </div>
+
+
+            <div class="row" style="padding:1rem">
+                {% for student in attendees%}
+                    {% comment %}  src="http://'+domain.value +'/'+json[i].StudentIamge +'"/ {% endcomment %}
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                    <img src="http://{{domain}}/media/{{student.Student.StudentIamge}}" style="width:inherit; width:100%;border:solid;max-height:320px" >
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            {{student.Student.first_name}} {{student.Student.last_name}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                        </div>
+                                       
+                                    </div>
+                            
+                                </div>
+                        </div>
+
+
+
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="padding:1rem" class="text-center text-danger">
+                <h3>
+                    <b>
+                        No Attendees for the class
+                    </b>
+                </h3>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+{% endblock %}

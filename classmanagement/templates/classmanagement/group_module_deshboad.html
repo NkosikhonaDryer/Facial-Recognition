@@ -1,0 +1,113 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 row" style="padding:1rem">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800"><b>Group: {{moduleGroup.Group.GroupCode}}</b></h1>
+                <hr style="border:solid 2px" />
+                <h5><b> {{moduleGroup.Module.ModuleName}}</b></h5>
+            </div>
+            <div class="row">
+                
+                <div style="padding:0.5rem">
+                    <a href="{% url 'lectur_deshboad' LectureId=moduleGroup.Lecture.LectureId%}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                        <b>Dashboard</b>
+                    </a>
+
+                </div>
+                <div style="padding:0.5rem">
+                    <a href="{% url 'group_students' moduleGroupId=moduleGroup.ModuleGroupId %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                        <b>Group Students</b>
+                    </a>
+
+                </div>
+                <div style="padding:0.5rem">
+                    <a href="{% url 'add_TimeSlot' ModuleGroupId=moduleGroup.ModuleGroupId %}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                        <b>Add time slot</b>
+                    </a>
+
+                </div>
+
+                    
+            </div>
+    </div>
+    <hr style="border:solid 1px"/>
+    <div class="row">
+            
+
+           
+            
+        {% if timetableSlots %}
+
+            {% for slot in timetableSlots %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>  {{slot.weekday}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label><b>Time: {{slot.Time}} </b></label><br/>
+                                <label><b>Venue: {{slot.Venue}} </b></label><br/>
+                               
+                                
+                            </div>
+                            
+                        
+                        </div>
+                        <div class="card-footer" style="display:flex;" >
+            
+                            <a href="{% url 'slot_Details' SlotId=slot.SlotId %}" class="btn btn-default" style="background-color:#284678;color:white;width:100%">
+                                <b>more detaile</b>
+                            </a>
+                    
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+        {% else %}
+        
+
+            <div class="container" style="display:flex; justify-content:center">
+                <div class="text-danger"  style="padding:2rem;border:solid; border-radius:12px">
+
+                    <h4>Please add time slots for class scheduling <a href="{% url 'add_TimeSlot' ModuleGroupId=moduleGroup.ModuleGroupId %}" ><b>Here</b></a></h4>
+                </div>
+            </div>
+
+        {% endif %}
+        <!-- Pending Requests Card Example -->
+        
+    </div>
+
+
+
+
+
+
+{% endblock %}

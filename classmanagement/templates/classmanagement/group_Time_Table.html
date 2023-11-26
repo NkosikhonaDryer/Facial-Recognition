@@ -1,0 +1,358 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="container">
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4" style="padding:1rem">
+            <h1 class="h3 mb-0 text-gray-800">Group time table</h1>
+            <a href="{% url 'student_deshboad' GroupId=group.GroupId StudentId=student.StudentId %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                Deshboad</a>
+        </div>
+        <hr/>
+    </div>
+
+
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Monday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Monday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+    <hr/>
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Tuesday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Tuesday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+    <hr/>
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Wednesday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Wednesday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+    <hr/>
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Thursday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Thursday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+    <hr/>
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Friday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Friday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+
+    <hr/>
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Saturday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Saturday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+    <hr/>
+    <div style="padding:1rem">
+
+        <div>
+            <h1> Sunday <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in timetable.Sunday %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b>{{slot.ModuleGroup.Module.ModuleName}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label style="font-size:25px"><b>Time: {{slot.Time}} </b></label><br/>
+                                <label style="font-size:25px"><b>Venue: {{slot.Venue}} </b></label><br/>
+                                <label style="font-size:15px"><b>Lecture: {{slot.Lecture.first_name}} {{slot.Lecture.last_name}} </b></label><br/>
+                                
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+
+    </div>
+
+{% endblock %}

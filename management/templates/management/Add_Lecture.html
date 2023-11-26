@@ -1,0 +1,233 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+    
+
+    <div class="container">
+        <div style="padding:1rem;display:flex;justify-content:space-between">
+
+            <div style="display:flex, justify-content:center">
+                <h2><b>{{Program.ProgramName}} Lectures</b></h2>
+            </div>
+           
+        </div>
+
+        <hr/>
+        <div>
+            <h4><b>Add new Lecture</b></h4>
+        </div>
+        <form method="post" style="padding:1rem;font-size:20px">
+            {% csrf_token %}
+            <div>
+                <label class="form-label" >Email</label>
+                <input type="email" id="email" required name="email"  class="form-control form-control-lg"/>
+            </div>
+            <input type="hidden" name="ProgramId" value="{{Program.ProgramId}}"/>
+            <div>
+                <label class="form-label" >First name</label>
+                <input type="text" required name="first_name"  class="form-control form-control-lg"/>
+            </div>
+            <div>
+                <label class="form-label" >Last name</label>
+                <input type="text" required name="last_name"  class="form-control form-control-lg"/>
+            </div>
+            
+            <div>
+                <label class="form-label" >Phone number</label>
+                <input type="text" required name="PhoneNumber"  class="form-control form-control-lg"/>
+            </div>
+            <div>
+                <label class="form-label" >Group</label>
+                <select  required name="ModuleGroupId"  class="form-control form-control-lg">
+                    {% for group in moduleGroups %}
+
+                        <option value="{{group.ModuleGroupId}}">
+                            <b>{{group.Group.GroupCode}}</b>
+                            
+                        </option>
+                    {% endfor %}
+                
+
+                </select>
+            </div> 
+           
+            
+              
+            <div style="display:flex; justify-content:center; padding: 1rem">
+                
+                <button type="submit" style="border-radius:100px; width:auto; height:auto;background-color:#284678;color:white;"  class="form-control form-control-lg text-center" > Submit </button>
+            </div>  
+        </form>
+
+     
+        {% if Lectures %}
+            <center>
+                <h1>
+                    <b>or</b>
+
+                </h1>
+                <div>
+                    <h4><b>select from the existing Lectures</b></h4>
+                </div>
+
+            </center>
+            <div class="row">
+                
+                {% for group in moduleGroups %}
+                
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div style="display:flex; justify-content:right">
+                               
+                                
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                    <h1><b>{{group.Group.GroupCode}} </b></h1>                                
+                                </div>
+                                <hr/>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2" style="display:flex; justify-content:center;color: #FF69B4;">
+                                        
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{group.Module.ModuleCode}}
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                
+                                </div>
+                                <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                    
+                                      
+                                        
+                                    <form method="post" action="{% url 'assignExisting' %}" style="display:flex;flex-direction:column; justify-content:center">
+                                        {% csrf_token %}
+                                        <label><b>Lecture</b></label>
+                                        <input type="hidden" name="moduleGroupId" value="{{group.ModuleGroupId}}"/>
+                                        <select name="LectureId">
+
+                                            {% for Lecture in ProgramLectures%}
+                                                <option value="{{Lecture.LectureId}}">
+                                                    {{Lecture.first_name}} {{Lecture.last_name}}
+
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                  
+                                        <div style="padding:0.5rem">
+                                            <button type="submit" class="btn btn-success">
+                                            
+                                                <b>Assign</b>
+    
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor%}
+            
+
+            
+
+
+
+
+
+
+        
+
+
+            </div>
+
+            <hr/>
+
+            <div class="row">
+                
+                    {% for Lecture in Lectures %}
+                    
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div style="display:flex; justify-content:right">
+                                   
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                        <img style="width:inherit; width:100%;border:solid;max-height:320px" src="{% static 'manageProfile/images/DefaultProfile.jpg' %}"/>
+                                        
+                                    </div>
+                                    <hr/>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2" style="display:flex; justify-content:center;color: #FF69B4;">
+                                            
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{Lecture.Lecture.first_name}} {{Lecture.Lecture.last_name}}
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    
+                                    </div>
+                                    <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                        
+                                        <div>
+                                            Groups: 
+                                            {% for group in Lecture.moduleGroups %}
+                                                {{group.Group.GroupCode}} 
+                                            {% endfor %}
+
+                                        </div>
+                                                    
+                                            <div>
+                                                {% comment %} <a class="btn btn-success" href="{% url 'Approve' orderId=order.OrderId %}" title="Remove item from cart?" style="padding:5px;" >Approve order</a> {% endcomment %}
+                                            </div>
+    
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                
+    
+    
+    
+    
+    
+    
+            
+    
+    
+            </div>
+        {%endif%}
+ 
+
+
+    <div>
+
+{% endblock %}

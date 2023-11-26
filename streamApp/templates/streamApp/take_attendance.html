@@ -1,0 +1,247 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+<input type="hidden" id="domain" value="{{domain}}"/>
+    <div class="container">
+       
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 row" style="padding:1rem">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800"><b>Taking attendance from group {{class.Group.GroupCode}}</b></h1>
+
+            </div>
+            <div>
+                <a href="{% url 'lectur_deshboad' LectureId=class.TimetableSlot.Lecture.LectureId %}" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="background-color:#284678; color:white; font-size:20px">
+                    <b>Dashboard</b>
+                </a>
+            </div>
+        </div>
+        <hr/>
+       
+        
+            
+        <div id="videoHolder" style="padding:1rem;  display:flex; justify-content:center" >
+            <img src="{% url 'video_feed' classId=class.ClassId %}" id="videoStream" style="min-width:250px; min-height:300px;border:solid;border-radius:12px" />
+            <div id="ModeHolder" hidden class="" style="border:solid; padding:1rem">
+                <h3><b id="messageHolder"></b></h3>
+                <hr/>
+
+                <h5><b>Taking next attendee in: <i id="counter"></i></b></h5>
+
+                <h5><b>Or stop taking attendees by clicking: <a href="{% url 'Done_attendance' classId=class.ClassId %}" class="btn btn-default btn-danger"><b>Done</b></a> </b></h5>
+            </div>
+            
+
+        </div>
+        <div style="padding:1rem; display:flex; justify-content:center">
+            <a href="{% url 'Done_attendance' classId=class.ClassId %}" class="btn btn-default btn-danger">
+                
+                <b>Stop taking attendance</b>
+
+
+            </a>
+            
+
+        </div>
+        <hr/>
+
+        <div class="text-center" style="padding:1rem">
+
+            <h2><b>Class attendees</b>
+        </div>
+        <div id="AttendanceHolder" class="row" style="padding:1rem">
+
+            {% if attendees%}
+
+        
+                
+
+            {% else %}
+                <div class="text-danger" style="width:100%; display:flex; justify-content:center">
+                    <h2 ><b>NO attendees present on the class</b></h2>
+
+                </div>
+
+            {% endif %}
+
+                
+
+            
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+    </div>
+    
+    <script>
+        let countdown;
+        let seconds = 30;
+        const videoElement = document.getElementById('videoStream');
+        const ModeHolder = document.getElementById('ModeHolder')
+
+        function startCountdown() {
+
+            console.log("seconds: ",seconds)
+            currentLength = 0
+            modeId = 0
+            count = 5
+            setInterval(function() {
+                seconds--;
+
+                if (seconds < 0) {
+                    clearInterval(countdown);
+                    console.log( 'Times up!');
+                } else {
+
+                    //getting module
+
+                    fetch("{% url 'getMessages' classId=class.ClassId %}",{
+                        method:"GET",
+                        
+                    
+                        
+                        
+                    }).then(function(response){
+                        
+                        return response.json();
+                        
+                    }).then(function (json){
+                        console.log("Messages", json)
+                        
+                        if(json.currentAttendee){
+                            if(json.currentAttendee >modeId ){
+                                console.log("new mode found")
+                                modeId = json.currentAttendee
+                                count = 5
+                                videoElement.src = "";
+                                videoElement.hidden = true
+
+                                ModeHolder.hidden = false
+                                ModeHolder.classList.add = 'text-'+json.type
+                                messageHolder = document.getElementById("messageHolder")
+                                messageHolder.innerHTML = json.Message
+                            }
+                            console.log("Mode found")
+                            counter = document.getElementById("counter")
+                            counter.innerHTML = count--
+                            if (count == 0){
+                                removeMode()
+                                ModeHolder.hidden = true
+                                messageHolder = document.getElementById("messageHolder")
+                                messageHolder.innerHTML = ''
+                                
+                                videoElement.src = "{% url 'video_feed' classId=class.ClassId %}";
+                                videoElement.hidden = false
+                            }
+                        }
+                        else{
+                            console.log("No mode!")
+                            
+                            
+                        }
+                    })
+
+
+
+
+                    //Adding Attendance
+                    seconds++
+                    console.log( 'Times: ',seconds);
+                    fetch("{% url 'allAttendees' classID=class.ClassId %}",{
+                        method:"GET",
+                        
+                    
+                        
+                        
+                    }).then(function(response){
+                        
+                        return response.json();
+                        
+                    }).then(function (json){
+
+                        domain = document.getElementById("domain")
+                        if(json.length > currentLength){
+                            for(var i=0; i< json.length; i++){
+                                AttendanceHolder = document.getElementById("AttendanceHolder")
+                                AttendanceHolder.innerHTML += '<div class="col-xl-3 col-md-6 mb-4">'+
+
+                                    '<div class="card border-left-primary shadow h-100 py-2">'+
+                                        '<div class="card-body">'+
+                                            '<div class="row no-gutters align-items-center" style="display:flex;justify-content:center">'+
+                                                '<img id="" style="width:inherit; width:100%;border:solid;max-height:320px"  src="http://'+domain.value +'/'+json[i].StudentIamge +'"/>'+
+                                            '</div>'+
+                                            '<div class="row no-gutters align-items-center">'+
+                                                '<div class="col mr-2">'+
+                                                    '<div class="text-xs font-weight-bold text-info text-uppercase mb-1">'+
+                                                        ''+json[i].first_name+' '+json[i].last_name+'</div>'+
+                                                    '<div class="h5 mb-0 font-weight-bold text-gray-800"></div>'+
+                                                '</div>'+
+                                               
+                                            '</div>'+
+                                    
+                                        '</div>'+
+                                    '</div>'+
+
+
+
+                                    '</div>'
+                                console.log("Data: ", json[i].StudentIamge)
+                            }
+                        }
+                        currentLength = json.length
+
+                        console.log("current Length: ", currentLength)
+                        
+                       
+                    })
+                        
+                }
+            }, 1000); 
+        }
+
+        startCountdown()
+
+        
+
+        function removeMode(){
+            fetch("{% url 'removeMode' classId=class.ClassId %}",{
+                method:"GET",
+                
+            
+                
+                
+            }).then(function(response){
+                
+                return response.json();
+                
+            }).then(function (json){
+                console.log("Js", json)
+                
+            })
+        }
+
+    </script>
+
+   
+
+{% endblock %}

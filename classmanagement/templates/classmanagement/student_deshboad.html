@@ -1,0 +1,159 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 row" style="padding:1rem">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            </div>
+            <div>
+                <div style="padding:0.3rem">
+                    <a href="{% url 'Add_Student' StudentId=student.StudentId %}" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        My information
+                   </a>
+                </div>
+               <div style="padding:0.3rem">
+
+                    <a href="{% url 'group_Time_Table' GroupId=group.GroupId %}" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        Time table
+                    </a>
+               </div>
+            </div>
+        </div>
+        <hr/>
+    
+        <div>
+            <h1><b>Group {{group.GroupCode}} Modules</b></h1>
+        </div>
+        <div class="row">
+            
+
+           
+            
+
+            {% for module in modules %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        
+                        <div class="card-body">
+                            <div>
+                                <h5><b>{{module.moduleGroup.Module.ModuleName}}</b></h5>
+                            </div>
+                            <hr/>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Class Attendance
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{module.attendanceRate}}%</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <div class="progress-bar bg-info" role="progressbar"
+                                                    style="width: {{module.attendanceRate}}%" aria-valuenow="50" aria-valuemin="0"
+                                                    aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="display:flex;" >
+             
+                            <a href="{% url 'module_deshboad' ModuleGroupId=module.moduleGroup.ModuleGroupId %}" class="btn btn-default" style="background-color:#284678;color:white;width:100%">
+                                <b>more details</b>
+                            </a>
+                    
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+
+        <!-- Content Row -->
+
+
+       
+
+    </div>
+    {% if todayTimetableSlots %}
+        <div>
+            <h1>Your classes today <h1>
+        </div>
+        <div class="row">
+                
+
+            
+                
+
+            {% for slot in todayTimetableSlots %}
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-header">
+                            <h5><b> Group: {{slot.ModuleGroup.Group.GroupCode}} </b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:15px">
+                                
+
+                                <label><b>Time: {{slot.Time}} </b></label><br/>
+                                <label><b>Module: {{slot.ModuleGroup.Module.ModuleName}} </b></label><br/>
+                               
+                                
+                            </div>
+                            
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
+            {% endfor  %}
+
+            <!-- Pending Requests Card Example -->
+            
+        </div>
+    {% else %}
+
+        <div>
+            <h4><b>You do not have any classes today</b></h4>
+        </div>
+
+
+    {% endif %}
+
+{% endblock %}

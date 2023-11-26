@@ -1,0 +1,138 @@
+{% extends "streamApp/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+        <br/>
+        <br/>
+        {% endfor %}
+    {% endif %}
+    
+
+    <div class="container" >
+        <div style="display:flex; justify-content:space-between">
+            
+            <div >
+                <h2><b>{{module.ModuleName}}</b></h2>
+            </div>
+            <div style="display:flex">
+                <div style="padding:1rem">
+                    <a class="btn btn-default" style="border:solid 2px; border:radius:12px;color:#284678" href="{% url 'all_Modules' ProgramId=module.Program.ProgramId %}"><b>Go to program Modules</b></a>
+    
+                </div>
+                
+            </div>
+        </div>
+        <hr/>
+        <div>
+            <div style="display:flex; justify-content:right">
+                <a title="Update module details" style="border:solid 1px;padding:0.5rem;border-radius:80%" href="{% url 'update_Module' ModuleId=module.ModuleId %}"> <i class="fas  fa-pencil-alt edit-icon"></i></a>
+            </div>
+            <p style="font-size:25px" >
+                <label>Module name: {{module.ModuleName}}</label><br/>
+
+                <label>Program code: {{module.Program.ProgramCode}}</label><br/>
+                <label>Module Code: {{module.ModuleCode}}</label><br/>
+                <label>Added By: {{module.AddedBy.first_name}} {{module.AddedBy.last_name}}</label><br/>
+                
+                <label>Date Created: {{module.DateCreated}}</label>
+                
+
+            
+            </p>
+        </div>
+        <hr/>
+        <div>
+            <div style="display:flex; justify-content:space-between; padding:1rem">
+                <div>
+                    <h2>
+                        <b>{{module.ModuleName}} Groups</b>
+                    </h2>
+                </div>
+                <div>
+                    {% comment %} <a title="Add more or reove groups" style="border:solid 1px;padding:0.5rem;border-radius:80%" href="{% url 'update_Module' ModuleId=module.ModuleId %}"> <i class="fas  fa-pencil-alt edit-icon"></i></a> {% endcomment %}
+                </div>
+
+            </div>
+
+            {% if groups %}
+    
+            <div class="row">
+                
+                    {% for group in groups %}
+                
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div style="display:flex; justify-content:right">
+                               
+                                    <a  style="justify-content:center;padding:10px; background-color:green; color:white" href="{% url 'Group_Details' GroupId=group.Group.GroupId %}">
+                                        More details
+                                    </a>
+                                    
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                       <h1>{{group.Group.GroupCode}}</h1>
+                                    </div>
+                                    <hr/>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2" style="display:flex; justify-content:center;color: #FF69B4;">
+                                            
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{group.Group.numStudents}} students
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                        
+                                       
+                                                    
+                                        <div>
+                                            {% if group.Lecture%}
+                                                Lecture: {{group.Lecture.first_name}}   
+                                            {% else %}
+                                                <a href="{% url 'Assign_Lecture' moduleId=module.ModuleId %}">Assign Lecture</a> 
+                                            
+                                            {% endif %}
+                                        </div>
+    
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                
+    
+    
+    
+    
+    
+    
+            
+    
+    
+            </div>
+        {%endif%}
+        </div>
+
+
+    </div>
+      
+{% endblock %}
